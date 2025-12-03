@@ -22,20 +22,23 @@ async function getTokenFirebase(uid, email) {
     };
 
     // 1. Generate custom token
-    // const customToken = await adminAuth
-    //   .auth()
-    //   .createCustomToken(uid, additionalClaims);
+    const customToken = await adminAuth
+      .auth()
+      .createCustomToken(uid, additionalClaims);
 
+      console.log('customToken', customToken);
+      
     // 2. Exchange custom token -> ID Token
     const response = await axios.post(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${process.env.FB_API_KEY}`,
       {
-        token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTc2NDc1MDE3OCwiZXhwIjoxNzY0NzUzNzc4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1jNHFic0BzbWFydGttc3lzdGVtLTI3MDVmLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic3ViIjoiZmlyZWJhc2UtYWRtaW5zZGstYzRxYnNAc21hcnRrbXN5c3RlbS0yNzA1Zi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInVpZCI6IklXcHAzek5HbGJUd3pUY1ltcDBHR3ZKS2RDMTIiLCJjbGFpbXMiOnsiZW1haWwiOiJhdWxpYS5pa2hzYW5AaWxjcy5jby5pZCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfX0.CBL5D8Xg6PDTH9nxZG2UYop8Pih_Pnax61D4GqircsFaAPuuyUXqQoZYzD0ffwWP0Kg6s5M7j2zrLu4Ot0QFI81O3-aym5HvohOgcHYPZejyhvqtk5YfcCYTqZJDcuBQbffBPs5B179fpc6Z9JYlLvm-S5b3rikcs2Y-Aidfrshukehz2qiZBaYVTb5sta2BVlsoxoEMei8SttKr6fQlMw7Zq1F9qq1RTye69rLQp2973fK4KUnenzNdB1u3ySCHUXCJ1XJTWk2lfUJgvQjyILB1yycu8JmRNniEAiUltg4xA1qb9iNcKhgbdW0N9JeMMTSfVkjPQNLbsA4BuFHMxw',
+        token: customToken,
         returnSecureToken: true,
       }
     );
 
     console.log('response', response);
+    
 
     // 3. Return hasilnya
     return response.data;   // <-- return valid data
