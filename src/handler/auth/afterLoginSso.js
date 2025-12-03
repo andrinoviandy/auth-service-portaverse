@@ -22,11 +22,10 @@ async function getTokenFirebase(uid, email) {
     };
 
     // 1. Generate custom token
-    const customToken = await adminAuth
-      .auth()
-      .createCustomToken(uid, additionalClaims);
+    // const customToken = await adminAuth
+    //   .auth()
+    //   .createCustomToken(uid, additionalClaims);
 
-    console.log('custom_token', customToken)
     // 2. Exchange custom token -> ID Token
     const response = await axios.post(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${process.env.FB_API_KEY}`,
@@ -35,6 +34,8 @@ async function getTokenFirebase(uid, email) {
         returnSecureToken: true,
       }
     );
+
+    console.log('response', response);
 
     // 3. Return hasilnya
     return response.data;   // <-- return valid data
